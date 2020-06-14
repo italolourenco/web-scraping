@@ -10,7 +10,7 @@ class ScraperService {
         try {
             const path = `/${userName}/${repositoryName}`
 
-            const cacheFactory = CacheManagerFactory.getInstance('127.0.0.1', 6379)
+            const cacheFactory = CacheManagerFactory.getInstance()
             const cache = cacheFactory.createCacheManager()
 
             const requestIsCached = await cache.get(path)
