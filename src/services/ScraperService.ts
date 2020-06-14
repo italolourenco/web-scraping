@@ -1,16 +1,32 @@
-import GithubConnector from "../connectors/GithubConnector"
-import PageTranslator from "../translator/PageTranslator"
+import PageTranslator from "../translators/PageTranslator"
+import JSDomAdapter from "../adapters/JSDomAdapter"
+import { CacheManagerFactory } from "../cache-manager/CacheManagerFactory"
 
 
 class ScraperService {
 
     async execute(userName: string, repositoryName: string){
-        const path = `/${userName}/${repositoryName}`
 
-        const result = await PageTranslator.execute(path)
+        try {
+            const path = `/${userName}/${repositoryName}`
 
-        console.log(result)
+            const cacheFactory = CacheManagerFactory.getInstance('127.0.0.1', 6379)
+            const cache = cacheFactory.createCacheManager()
 
+            const requestIsCached = await cache.get(path)
+
+            if(!requestIsCached){
+                const pageTranslator = new PageTranslator(JSDomAdapter)
+                const result = await pageTranslator.execute(path)
+                await cache.set(path, JSON.stringify(result))
+                return result 
+            }
+
+            return JSON.parse(requestIsCached)
+        }
+        catch(error){
+            console.log(error)
+        }
     }
 }
 
