@@ -1,17 +1,3 @@
-// import express from 'express'
-// import routes from './routes'
-
-
-// const app = express()
-
-// app.use(routes)
-
-// const server = app.listen('3000', function() {
-//     console.log(`Example app listening`);
-// })
-
-// server.timeout = 1000 * 60 * 10
-
 import express, { Application, Request, Response, NextFunction } from 'express';
 import http from 'http'
 import pino from 'pino'
