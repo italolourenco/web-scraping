@@ -1,12 +1,10 @@
-import express, { response, request } from 'express'
+import express from 'express'
+import routes from './routes'
+
 
 const app = express()
 
-app.get('/scraping/:username/:repositoryname', (request, response) => {
-    const { username, repositoryname } = request.params
-
-    return response.status(200).json({message : 'OK'})
-})
+app.use(routes)
 
 app.listen('3000', function() {
     console.log(`Example app listening`);
