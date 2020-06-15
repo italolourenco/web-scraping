@@ -1,12 +1,12 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const GIT_HUB_PATH = 'https://github.com'
 
 class GithubConnector {
 
-    async execute(path :string){
+    async execute(path :string): Promise<AxiosResponse>{
         try {
-            const url = GIT_HUB_PATH + path
+            const url = `${GIT_HUB_PATH}${path}`
             return await axios.get(url)
         } catch( error ) {
             console.log(error)
