@@ -1,6 +1,3 @@
-import express = require("express");
-const SwaggerRouter = express.Router();
-
 import { Router } from 'express'
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi  from 'swagger-ui-express'
@@ -25,13 +22,22 @@ const options = {
     ]
 };
 
-const specs = swaggerJSDoc(options);
-SwaggerRouter.use("/", swaggerUi.serve);
-SwaggerRouter.get(
-    "/",
-    swaggerUi.setup(specs, {
-        explorer: true
-    })
+class SwaggerRouter {
+    public router: Router
+
+    constructor() {
+        this.router = Router()
+        this.configRouter()
+    }
+
+    private configRouter(): void {
+        const specs = swaggerJSDoc(options);
+        this.router.use("/", swaggerUi.serve);
+        this.router.get("/", swaggerUi.setup(specs, { explorer: true })
 );
+    }
+}
 
 export default SwaggerRouter;
+
+
