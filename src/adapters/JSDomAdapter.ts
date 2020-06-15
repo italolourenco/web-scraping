@@ -1,7 +1,6 @@
-import { Convert } from "./protocols/Convert"
+import { Convert } from "./protocols/Convert" 
 
-const jsdom = require('jsdom')
-const { JSDOM } = jsdom
+import { JSDOM } from 'jsdom';
 
 
 class JSDomAdapter implements Convert {
