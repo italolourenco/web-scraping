@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build-ts": "tsc",
+    "build-ts": "tsc -p ./src",
     "postinstall": "npm run build-ts",
     "start": "node dist/src/server.js",
     "test": "jest"
