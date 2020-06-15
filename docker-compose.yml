@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: nodejs
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - REDIS_URL=host.docker.internal
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./dist:/server/dist
+    networks:
+      - app-network
+    command: npm start
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:5
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
+    container_name: redis
+    ports:
+      - '6379:6379'
+    networks:
+    - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  node_modules:
