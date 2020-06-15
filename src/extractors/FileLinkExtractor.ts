@@ -5,8 +5,8 @@ export interface FileLink {
 }
 
 export enum linkType {
-    FOLDER = 'FOLDER',
-    FILE = 'FILE'
+    FOLDER = 'directory',
+    FILE = 'file'
 }
 
 
@@ -15,22 +15,31 @@ class FileLinkExtractor {
 
     static extract(component){
 
-        const cellSelector = component.querySelector('tr > td > span > a')
+        const pathFile = this.pathExtractor(component)
 
-        const link = cellSelector.getAttribute('href')
-        const name = cellSelector.getAttribute('title')
-
-        const separetor = name.split('.')
-
-        const typeLink = separetor.length == 1 && (separetor[0] !== 'Dockerfile' && separetor[0] !== 'license' ) ? linkType.FOLDER : linkType.FILE
-
+        const typeFile = this.typeExtractor(component)
 
         const fileLink : FileLink = {
-            path: link,
-            type: typeLink
+            path: pathFile,
+            type: typeFile
         }
 
         return fileLink
+    }
+
+    private static pathExtractor(component) {
+        const cellSelector = component.querySelector('tr > td > span > a')
+        const path = cellSelector.getAttribute('href')
+
+        return path
+    }
+
+    private static typeExtractor(component) {
+        const cellSelector = component.querySelector('tr > td.icon > svg')
+        const type = cellSelector.getAttribute('aria-label')
+
+        return type
+
     }
 }
 
