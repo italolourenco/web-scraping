@@ -19,20 +19,23 @@ class FileInfoExtractor {
     private static formatText(fileInfoText){
         const textWithoutCharacters = JSON.stringify(fileInfoText).replace(/[^\d.-]/g, ' ').split(' ')
 
-        const FileInfos = [ ]
+        const fileInfos = [ ]
 
         textWithoutCharacters.forEach(info => {
           const infoIsValid = info !== '' || false
 
           if(infoIsValid) {
-            FileInfos.push(info)
+            fileInfos.push(info)
           }
 
         })
 
+        const numberOfLines = fileInfos.length > 1 ? parseInt(fileInfos[0]) : 0
+        const numberOfBytes = fileInfos.length > 1 ? parseFloat(fileInfos[2]) : parseFloat(fileInfos[0])
+
         const fileResume: InfoResume ={
-            lines: parseInt(FileInfos[0]),
-            bytes: parseFloat(FileInfos[2])
+            lines: numberOfLines,
+            bytes: numberOfBytes
 
         }
 
