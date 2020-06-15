@@ -6,16 +6,16 @@ const scraperRouter = Router()
 /** 
  *  @swagger
  *  path:
- *   /scraping:
+ *   /scraping/{userName}/{repositoryName}:
  *    get:
  *      summary: Get information about the number of lines and bytes of all file extensions in a repository
  *      tags: [RepositoryResume]
  *      parameters:
- *      - name: username
+ *      - name: userName
  *        in: "path"
  *        required: true
  *        type: "string"
- *      - name: repositoryname
+ *      - name: repositoryName
  *        in: "path"
  *        required: true
  *        type: "string"
