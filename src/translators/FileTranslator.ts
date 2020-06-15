@@ -4,10 +4,6 @@ import FileInfoExtractor from "../extractors/FileInfoExtractor";
 import { Convert } from "../adapters/protocols/Convert";
 import { ExtensionResume } from "../models/ExtensionResume";
 
-const jsdom = require('jsdom')
-const { JSDOM } = jsdom
-
-
 class FileTranslator {
 
   constructor(private readonly converter: Convert) {}
@@ -19,7 +15,7 @@ class FileTranslator {
 
         const body = await GithubConnector.execute(path)
 
-        const virtualDOM = new JSDOM(body.data);
+        const virtualDOM = this.converter.toVirtualDOM(body)
 
         const extension = FileExtensionExtractor.extract(virtualDOM)
 
