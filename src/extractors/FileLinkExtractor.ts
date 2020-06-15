@@ -13,7 +13,7 @@ export enum linkType {
 class FileLinkExtractor {
 
 
-    static extract(component){
+    static extract(component): FileLink{
 
         const pathFile = this.pathExtractor(component)
 
