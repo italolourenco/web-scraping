@@ -1,9 +1,22 @@
-import { Router } from 'express'
+import { Router, Request, Response } from "express"
 import ScraperService from '../services/ScraperService'
+import pino from 'pino'
+const logger = pino()
 
-const scraperRouter = Router()
 
-/** 
+class ScraperRouter {
+    public router: Router
+
+    constructor() {
+        this.router = Router()
+        this.setSubRoutes()
+    }
+
+    private setSubRoutes(): void {
+        this.router.get('/:username/:repositoryname', this.scraper)
+    }
+
+    /** 
  *  @swagger
  *  path:
  *   /scraping/{userName}/{repositoryName}:
@@ -28,13 +41,27 @@ const scraperRouter = Router()
  *                $ref: '#/components/schemas/RepositoryResume'
  * 
  */
-scraperRouter.get('/:username/:repositoryname', async (request, response) => {
-    const { username, repositoryname } = request.params
+    public async scraper(request: Request, response: Response): Promise<Response> {
+        const { username, repositoryname } = request.params
 
-    const repositoryInfo = await ScraperService.execute(username, repositoryname)
+        try {
+            const repositoryInfo = await ScraperService.execute(username, repositoryname)
+            logger.info(`Success on request for repository ${username}/${repositoryname}`, {
+                eventName: "ScraperServiceExecute",
+                repositoryInfo
+            })
+            return response.status(200).json({result : repositoryInfo})
 
-    return response.status(200).json({result : repositoryInfo})
+        } catch (error) {
+            return response.send({
+                message: `Error on request for repository ${username}/${repositoryname}`,
+                error: {
+                    message: error.message,
+                    stack: error.stack
+                }
+            })
+        }
+    }
+}
 
-})
-
-export default scraperRouter
+export default ScraperRouter

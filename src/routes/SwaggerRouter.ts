@@ -1,7 +1,9 @@
 import express = require("express");
 const SwaggerRouter = express.Router();
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+
+import { Router } from 'express'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUi  from 'swagger-ui-express'
 
 const options = {
     swaggerDefinition: {
@@ -23,7 +25,7 @@ const options = {
     ]
 };
 
-const specs = swaggerJsdoc(options);
+const specs = swaggerJSDoc(options);
 SwaggerRouter.use("/", swaggerUi.serve);
 SwaggerRouter.get(
     "/",

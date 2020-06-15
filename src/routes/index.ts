@@ -1,11 +1,11 @@
 import { Router } from 'express'
 
-import scraperRouter from './ScraperRouter'
+import ScraperRouter from './ScraperRouter'
 import swaggerRouter from './SwaggerRouter'
 
 const routes = Router()
 
-routes.use('/scraping', scraperRouter)
+routes.use('/scraping', new ScraperRouter().router)
 routes.use('/docs', swaggerRouter)
 
 
