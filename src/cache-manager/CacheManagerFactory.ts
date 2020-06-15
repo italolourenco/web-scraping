@@ -35,6 +35,9 @@ export class CacheManagerFactory {
     public createCacheManager(): CacheManager {
         if (!this.redis) {
             this.redis = this.internalCreateClient(this.port, this.host);
+            if(process.env.REDIS_PASSWORD){
+                this.redis.auth(process.env.REDIS_PASSWORD)
+            }
         }
         return new CacheManager(this.redis);
     }
