@@ -2,22 +2,18 @@ import GithubConnector from "../connectors/GithubConnector";
 import FileExtensionExtractor from "../extractors/FileExtensionExtractor";
 import FileInfoExtractor from "../extractors/FileInfoExtractor";
 import { Convert } from "../adapters/protocols/Convert";
+import { ExtensionResume } from "../models/ExtensionResume";
 
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 
-export interface FileResume {
-  extension: string,
-  lines: number,
-  bytes: number
-}
 
 class FileTranslator {
 
   constructor(private readonly converter: Convert) {}
 
 
-    async execute(path: string): Promise<FileResume> {
+    async execute(path: string): Promise<ExtensionResume> {
 
         console.log("get file data from : " , path)
 
@@ -29,13 +25,13 @@ class FileTranslator {
 
         const fileInfo = FileInfoExtractor.extract(virtualDOM)
 
-        const fileResume: FileResume = {
+        const extensionResume: ExtensionResume = {
           extension: extension,
           lines : fileInfo.lines,
           bytes: fileInfo.bytes
         }
 
-        return fileResume
+        return extensionResume
 
     }
 

@@ -1,11 +1,12 @@
 import PageTranslator from "../translators/PageTranslator"
 import JSDomAdapter from "../adapters/JSDomAdapter"
 import { CacheManagerFactory } from "../cache-manager/CacheManagerFactory"
+import { ExtensionResume } from "../models/ExtensionResume"
 
 
 class ScraperService {
 
-    async execute(userName: string, repositoryName: string){
+    async execute(userName: string, repositoryName: string):Promise<ExtensionResume[]>{
 
         try {
             const path = `/${userName}/${repositoryName}`

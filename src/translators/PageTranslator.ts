@@ -3,6 +3,7 @@ import FileTranslator from "./FileTranslator";
 import FileLinkExtractor, { linkType } from "../extractors/FileLinkExtractor";
 import PageFilesExtractor from "../extractors/PageFilesExtractor";
 import { Convert } from "../adapters/protocols/Convert";
+import { ExtensionResume } from "../models/ExtensionResume";
 
 class PageTranslator {
 
@@ -37,20 +38,20 @@ class PageTranslator {
       return repositoryResume
     }
 
-    private updateRepositoryResume(repositoryResume, fileResume) {
-      let findElement = false
+    private updateRepositoryResume(repositoryResume: ExtensionResume[], extensionResume: ExtensionResume) {
+      let findExtension = false
         
-      repositoryResume.map(data => {
-        if(data.extension === fileResume.extension){
-          data.lines = data.lines + fileResume.lines
-          data.bytes = data.bytes + fileResume.bytes
-          findElement = true
-          return data
+      repositoryResume.map(repositorySave => {
+        if(repositorySave.extension === extensionResume.extension){
+          repositorySave.lines += extensionResume.lines
+          repositorySave.bytes += extensionResume.bytes
+          findExtension = true
+          return repositorySave
         }
       })
 
-      if(!findElement){
-          repositoryResume.push(fileResume)
+      if(!findExtension){
+          repositoryResume.push(extensionResume)
       }
 
       return repositoryResume
